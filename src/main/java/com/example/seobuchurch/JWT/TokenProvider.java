@@ -50,17 +50,9 @@ public class TokenProvider {
         System.out.println("토큰만료시간: " + tokenExpiresIn);
 
         Integer subject;
-        if (authentication instanceof OAuth2AuthenticationToken) {
-            OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-            System.out.println("oauthToken email: " + oauthToken.getPrincipal().getAttribute("email"));
-            System.out.println("authentication: " + authentication);
-            subject = oauthToken.getPrincipal().getAttribute("id");
-        } else {
-            subject = Integer.valueOf(authentication.getName());
-        }
+        subject = Integer.valueOf(authentication.getName());
 
         String subject2 = String.valueOf(subject);
-
 
         System.out.println("authorities: " + authorities);
 

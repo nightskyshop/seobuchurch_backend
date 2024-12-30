@@ -10,13 +10,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class PostEntity extends BaseEntity {
+public class ColumnEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
-    private String verse;
-    private String pastor;
-    private String worshipTime;
-    private String url;
+    private String content;
+    private String author;
 }

@@ -1,9 +1,8 @@
 package com.example.seobuchurch.Controller;
 
-import com.example.seobuchurch.Entity.PostEntity;
+import com.example.seobuchurch.Entity.SermonEntity;
 import com.example.seobuchurch.JWT.TokenProvider;
-import com.example.seobuchurch.Service.PostService;
-import jakarta.websocket.server.PathParam;
+import com.example.seobuchurch.Service.SermonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,26 +12,31 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/post")
-public class PostController {
+@RequestMapping("/sermon")
+public class SermonController {
     @Autowired
-    private PostService service;
+    private SermonService service;
 
     private final TokenProvider tokenProvider;
 
     @GetMapping("")
-    public Page<PostEntity> getAllPost(@RequestParam int pageNo) {
-        return service.getAllPost(pageNo);
+    public Page<SermonEntity> getAllSermon(@RequestParam int pageNo, @RequestParam String worshipTime) {
+        return service.getAllSermon(pageNo, worshipTime);
+    }
+
+    @GetMapping("/current")
+    public SermonEntity getSermon() {
+        return service.getCurrentSermon();
     }
 
     @GetMapping("/{id}")
-    public PostEntity getPost(@PathVariable int id) {
-        return service.getPost(id);
+    public SermonEntity getSermon(@PathVariable int id) {
+        return service.getSermon(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void createPost(@RequestBody PostEntity post, @RequestHeader("Authorization") String accessToken) {
+    public void createSermon(@RequestBody SermonEntity sermon, @RequestHeader("Authorization") String accessToken) {
         if (accessToken == null || !accessToken.startsWith("Bearer ")) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT 토큰이 전달되지 않았습니다.");
         }
@@ -44,15 +48,15 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT 토큰이 유효하지 않습니다.");
         }
 
-        if (post.getTitle().isBlank() || post.getVerse().isBlank() || post.getPastor().isBlank() || post.getWorshipTime().isBlank() || post.getUrl().isBlank()) {
+        if (sermon.getTitle().isBlank() || sermon.getVerse().isBlank() || sermon.getPastor().isBlank() || sermon.getWorshipTime().isBlank() || sermon.getUrl().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "모든 항목을 채워주세요.");
         }
 
-        service.createPost(post);
+        service.createSermon(sermon);
     }
 
     @PatchMapping("/{id}")
-    public void updatePost(@PathVariable int id, @RequestBody PostEntity post, @RequestHeader("Authorization") String accessToken) {
+    public void updateSermon(@PathVariable int id, @RequestBody SermonEntity post, @RequestHeader("Authorization") String accessToken) {
         if (accessToken == null || !accessToken.startsWith("Bearer ")) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT 토큰이 전달되지 않았습니다.");
         }
@@ -68,11 +72,11 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "모든 항목을 채워주세요.");
         }
 
-        service.updatePost(id, post);
+        service.updateSermon(id, post);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable int id, @RequestHeader("Authorization") String accessToken) {
+    public void deleteSermon(@PathVariable int id, @RequestHeader("Authorization") String accessToken) {
         if (accessToken == null || !accessToken.startsWith("Bearer ")) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT 토큰이 전달되지 않았습니다.");
         }
@@ -84,6 +88,6 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT 토큰이 유효하지 않습니다.");
         }
 
-        service.deletePost(id);
+        service.deleteSermon(id);
     }
 }
