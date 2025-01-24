@@ -21,7 +21,7 @@ public class SermonService {
     }
 
     public SermonEntity getCurrentSermon() {
-        return repository.findFirstByWorshipTimeOrderByCreatedAtDesc("주일 설교");
+        return repository.findFirstByWorshipTimeOrderByCreatedAtDesc("주일예배");
     }
 
     public SermonEntity getSermon(int id) {
