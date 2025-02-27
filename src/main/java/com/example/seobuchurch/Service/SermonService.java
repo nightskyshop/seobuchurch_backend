@@ -45,6 +45,7 @@ public class SermonService {
             entity.setPastor(sermon.getPastor());
             entity.setWorshipTime(sermon.getWorshipTime());
             entity.setUrl(sermon.getUrl());
+            entity.setCreatedAt(sermon.getCreatedAt());
 
             repository.save(entity);
         } else {

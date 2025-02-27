@@ -1,8 +1,7 @@
 package com.example.seobuchurch.Service;
 
-import com.example.seobuchurch.Entity.ColumnEntity;
-import com.example.seobuchurch.Entity.SermonEntity;
-import com.example.seobuchurch.Repository.ColumnRepository;
+import com.example.seobuchurch.Entity.ChurchNewsEntity;
+import com.example.seobuchurch.Repository.ChurchNewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,17 +10,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class ColumnService {
+public class ChurchNewsService {
     @Autowired
-    private ColumnRepository repository;
+    private ChurchNewsRepository repository;
 
-    public Page<ColumnEntity> getAllColumn(int pageNo) {
+    public Page<ChurchNewsEntity> getAllChurchNews(int pageNo) {
         int pageSize = 10;
         PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
         return repository.findAllByOrderByCreatedAtDesc(pageRequest);
     }
 
-    public ColumnEntity getColumn(int id) {
+    public ChurchNewsEntity getChurchNews(int id) {
         if (repository.existsById(id)) {
             return repository.findById(id);
         }
@@ -29,19 +28,18 @@ public class ColumnService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 게시글이 없습니다.");
     }
 
-    public void createColumn(ColumnEntity column) {
-        repository.save(column);
+    public void createChurchNews(ChurchNewsEntity churchNews) {
+        repository.save(churchNews);
     }
 
 
 
-    public void updateColumn(int id, ColumnEntity column) {
+    public void updateChurchNews(int id, ChurchNewsEntity churchNews) {
         if (repository.existsById(id)) {
-            ColumnEntity entity = repository.findById(id);
-            entity.setTitle(column.getTitle());
-            entity.setContent(column.getContent());
-            entity.setAuthor(column.getAuthor());
-            entity.setCreatedAt(column.getCreatedAt());
+            ChurchNewsEntity entity = repository.findById(id);
+            entity.setTitle(churchNews.getTitle());
+            entity.setAuthor(churchNews.getAuthor());
+            entity.setUrl(churchNews.getUrl());
 
             repository.save(entity);
         }
