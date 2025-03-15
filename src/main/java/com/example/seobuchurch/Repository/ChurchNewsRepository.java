@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface ChurchNewsRepository extends JpaRepository<ChurchNewsEntity, Integer> {
-    Page<ChurchNewsEntity> findAllByOrderByCreatedAtDesc(PageRequest pageRequest);
+    Page<ChurchNewsEntity> findAllByOrderByTitleDesc(PageRequest pageRequest);
     ChurchNewsEntity findById(int id);
     boolean existsById(int id);
 }

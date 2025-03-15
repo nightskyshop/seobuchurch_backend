@@ -17,7 +17,7 @@ public class ChurchNewsService {
     public Page<ChurchNewsEntity> getAllChurchNews(int pageNo) {
         int pageSize = 10;
         PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
-        return repository.findAllByOrderByCreatedAtDesc(pageRequest);
+        return repository.findAllByOrderByTitleDesc(pageRequest);
     }
 
     public ChurchNewsEntity getChurchNews(int id) {
